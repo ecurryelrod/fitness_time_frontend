@@ -1,4 +1,5 @@
-const endPoint = "http://127.0.0.1:3000/api/studios/1"
+const endPoint = "http://127.0.0.1:3000/studios/1"
+const classForm = () => document.getElementById('classForm')
 
 document.addEventListener("DOMContentLoaded", () => {
     getStudio()
@@ -7,24 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
 const getStudio = () => {
     fetch(endPoint)
     .then(resp => resp.json())
-    .then(studio => {
-        const studioName = document.createElement('h1')
-        studioName.innerText = studio.data.attributes.name;
-
-        const phone = document.createElement('p')
-        phone.innerText = phoneFormat(studio.data.attributes.phone);
-
-        const email = document.createElement('p')
-        email.innerText = studio.data.attributes.email;
-
-        const address = document.createElement('p')
-        if (studio.data.attributes.address_2) {
-            address.innerText = studio.data.attributes.address_1 + " " + studio.data.attributes.address_2 + " " + studio.data.attributes.city + ", " + studio.data.attributes.state + " " + studio.data.attributes.zipcode
-        } else {
-            address.innerText = studio.data.attributes.address_1 + " " + studio.data.attributes.city + ", " + studio.data.attributes.state + " " + studio.data.attributes.zipcode
-        }
-        document.querySelector('#studio-container').append(studioName, phone, email, address);
-    })
+    .then(json => renderStudio(json))
 }
 
 const phoneFormat = (input) => {
@@ -39,5 +23,30 @@ const phoneFormat = (input) => {
     }else{
         return 'something went wrong'
     }
+}
+
+const renderStudio = (studio) => {
+    const h1 = document.createElement('h1')
+    h1.id = "studioName"
+    h1.innerText = studio.data.attributes.name;
+
+    const pPhone = document.createElement('p')
+    pPhone.id = "phone"
+    pPhone.innerText = phoneFormat(studio.data.attributes.phone);
+
+    const pEmail = document.createElement('p')
+    pEmail.id = "email"
+    pEmail.innerText = studio.data.attributes.email;
+
+    const pAddress = document.createElement('p')
+    pAddress.id = "address"
+    if (studio.address_2) {
+            pAddress.innerText = studio.data.attributes.address_1 + " " + studio.data.attributes.address_2 + " " + studio.data.attributes.city + ", " + studio.data.attributes.state + " " + studio.data.attributes.zipcode
+    } else {
+            pAddress.innerText = studio.data.attributes.address_1 + " " + studio.data.attributes.city + ", " + studio.data.attributes.state + " " + studio.data.attributes.zipcode
+    }
+    studioContainer.append(h1, pPhone, pEmail, pAddress)
+
+    showCreateClassButton()
 }
 

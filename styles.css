@@ -1,6 +1,7 @@
-#studio-container {
-    margin: flex;
+#studioContainer {
+    float: left;
     padding: 10px;
+    height: flex;
     background-color: lightblue;
     text-align: center;
 }

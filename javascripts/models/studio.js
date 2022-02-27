@@ -1,7 +1,7 @@
 class Studio {
     static all = []
 
-    constructor(id, name, email, phone, address_1, address_2, city, state, zipcode) {
+    constructor(id, name, email, phone, address_1, address_2, city, state, zipcode, dance_classes = []) {
         this.id = id
         this.name = name
         this.email = email
@@ -11,11 +11,16 @@ class Studio {
         this.city = city
         this.state = state
         this.zipcode = zipcode
+        this.dance_classes = dance_classes
         Studio.all.push(this)
     }
 
     static getAll = () => {
         this.all
+    }
+
+    static findById = (id) => {
+        this.all.find(studio => studio.id === id)
     }
 
     static phoneFormat = (input) => {
@@ -33,26 +38,37 @@ class Studio {
     }
 
     static renderStudio = (studio) => {
+        // debugger
+        // LevelsApi.getLevelsForSelect()
+        const studioBox = document.createElement('div')
+        studioBox.id = 'studioBox'
+        studioBox.dataset.id = studio.data.id
+
         const h1 = document.createElement('h1')
         h1.id = "studioName"
         h1.innerText = studio.data.attributes.name
+        studioBox.append(h1)
 
-        const pPhone = document.createElement('p')
-        pPhone.id = "phone"
-        pPhone.innerText = this.phoneFormat(studio.data.attributes.phone)
+        const phone = document.createElement('p')
+        phone.id = "phone"
+        phone.innerText = this.phoneFormat(studio.data.attributes.phone)
+        studioBox.append(phone)
 
-        const pEmail = document.createElement('p')
-        pEmail.id = "email"
-        pEmail.innerText = studio.data.attributes.email
+        const email = document.createElement('p')
+        email.id = "email"
+        email.innerText = studio.data.attributes.email
+        studioBox.append(email)
 
-        const pAddress = document.createElement('p')
-        pAddress.id = "address"
+        const address = document.createElement('p')
+        address.id = "address"
         if (studio.address_2) {
-                pAddress.innerText = studio.data.attributes.address_1 + " " + studio.data.attributes.address_2 + " " + studio.data.attributes.city + ", " + studio.data.attributes.state + " " + studio.data.attributes.zipcode
+                address.innerText = studio.data.attributes.address_1 + " " + studio.data.attributes.address_2 + " " + studio.data.attributes.city + ", " + studio.data.attributes.state + " " + studio.data.attributes.zipcode
         } else {
-                pAddress.innerText = studio.data.attributes.address_1 + " " + studio.data.attributes.city + ", " + studio.data.attributes.state + " " + studio.data.attributes.zipcode
+                address.innerText = studio.data.attributes.address_1 + " " + studio.data.attributes.city + ", " + studio.data.attributes.state + " " + studio.data.attributes.zipcode
         }
-        studioContainer.append(h1, pPhone, pEmail, pAddress)
+        studioBox.append(address)
+        
+        studioContainer.append(studioBox)
 
         NewClassForm.showCreateClassButton()
     }

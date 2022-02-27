@@ -16,6 +16,6 @@ class DanceClass {
     }
 
     static getAll = () => {
-        return this.all
+        this.all
     }
 }

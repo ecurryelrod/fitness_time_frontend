@@ -17,8 +17,7 @@ class NewClassForm {
                 <textarea id="inputDescription" name="description" cols="30" rows="10" placeholder="Class description"></textarea>
                 <br><br>
                 <label>Level: </label>
-                <select name="levels" id="levelId">
-                </select>
+                <select name="levels" id="levelId"></select>
                 <br><br>
                 <input id="inputDate" type="date" name="date">
                 <br><br>
@@ -27,15 +26,16 @@ class NewClassForm {
                 <label>End: </label>
                 <input id="inputEndTime" type="time" name="end_time" step="900">
                 <br><br>
-                <input id="inputTeacher" type="text" name="teacher" placeholder="Teacher">
-                <br><br>
-                <textarea id="inputTeacherBio" name="bio" placeholder="Teacher bio"></textarea>
+                <select name="teachers" id="teacherId"></select>
                 <br><br>
                 <button id="" type="submit">Submit</button>
             </form>
             `)
-            const collection = Level.all.map(level => `<option value="${level.id}">${level.attributes.title}</option>`)
-            levelId.innerHTML = collection.join("")
+            const levelCollection = Level.all.map(level => `<option value="${level.id}">${level.attributes.title}</option>`)
+            levelId.innerHTML = levelCollection.join("")
+
+            const teacherCollection = Teacher.all.map(teacher => `<option value="${teacher.id}">${teacher.attributes.name}</option>`)
+            teacherId.innerHTML = teacherCollection.join("")
     
             classForm().addEventListener('submit', this.handleSubmit)
         } else {
@@ -45,29 +45,26 @@ class NewClassForm {
 
     static handleSubmit = (e) => {
         e.preventDefault()
-        // debugger
-        let teacher = new Teacher({
-            name: e.target.inputTeacher.value,
-            bio: e.target.inputTeacherBio.value
-        })
-        debugger
         const data = {
             title: e.target.inputTitle.value,
             description: e.target.inputDescription.value,
             date: e.target.inputDate.value,
             start_time: e.target.inputStartTime.value,
             end_time: e.target.inputEndTime.value,
-            teacher_id: teacher.id,
-            level_id: e.target.levelId.id,
+            teacher_id: e.target.teacherId.value,
+            level_id: e.target.levelId.value,
             studio_id: e.target.parentElement.dataset.id
         }
-        // debugger
         fetch('http://127.0.0.1:3000/dance_classes', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(data)
         })
         .then(resp => resp.json())
-        .then(json => {debugger})
+        .then(json => this.renderDanceClass(json))
+    }
+
+    static renderDanceClass = (dance_class) => {
+        debugger
     }
 }

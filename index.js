@@ -4,4 +4,5 @@ const classForm = () => document.getElementById('classForm')
 document.addEventListener("DOMContentLoaded", () => {
     StudioApi.fetchStudio()
     LevelsApi.fetchLevels()
+    TeacherApi.fetchTeachers()
 })

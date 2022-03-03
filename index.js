@@ -5,4 +5,5 @@ document.addEventListener("DOMContentLoaded", () => {
     StudioApi.fetchStudio()
     LevelsApi.fetchLevels()
     TeacherApi.fetchTeachers()
+    DanceClassApi.fetchDanceClasses()
 })

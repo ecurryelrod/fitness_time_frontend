@@ -52,6 +52,10 @@ class NewClassForm {
             start_time: e.target.inputStartTime.value,
             end_time: e.target.inputEndTime.value,
             teacher_id: e.target.teacherId.value,
+            // new_teacher: {
+            //     name: e.target.inputTeacherName.value,
+            //     bio: e.target.inputBio.value
+            // },
             level_id: e.target.levelId.value,
             studio_id: e.target.parentElement.dataset.id
         }
@@ -61,10 +65,9 @@ class NewClassForm {
             body: JSON.stringify(data)
         })
         .then(resp => resp.json())
-        .then(json => this.renderDanceClass(json))
-    }
-
-    static renderDanceClass = (dance_class) => {
-        debugger
+        .then(json => {
+            DanceClass.renderDanceClass(json.data)
+            classForm().reset()
+        })
     }
 }

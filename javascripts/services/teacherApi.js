@@ -1,6 +1,8 @@
 class TeacherApi {
     static fetchTeachers = () => {
-        fetch('http://127.0.0.1:3000/teachers')
+        fetch('http://127.0.0.1:3000/teachers', {
+            headers: {'Access-Control-Allow-Origin': '*'}
+        })
         .then(resp => resp.json())
         .then(json => json.data.map(teacher => Teacher.all.push(teacher)))
         // .then(json => {debugger})

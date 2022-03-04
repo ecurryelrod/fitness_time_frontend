@@ -1,7 +1,30 @@
+body {
+    background-color: lightslategray;
+}
+
 #studioContainer {
-    float: left;
+    /* float: left; */
     padding: 10px;
-    height: flex;
+    /* height: flex; */
     background-color: lightblue;
     text-align: center;
+}
+
+#danceClassContainer {
+    /* display: inline; */
+    /* float: left; */
+    padding: 10px;
+    background-color: darkslateblue;
+}
+
+.danceClassBox {
+    border: thin, solid, black;
+    background-color: darkseagreen;
+    margin: 5px;
+    padding: 5px;
+    text-align: center;
+}
+
+.editButton {
+    background-color:mistyrose;
 }

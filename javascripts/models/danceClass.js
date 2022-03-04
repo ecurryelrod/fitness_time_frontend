@@ -1,63 +1,99 @@
 class DanceClass {
     static all = []
 
-    constructor(id, title, description, date, start_time, end_time, price, teacher_id, level_id, studio_id) {
-        this.id = id
-        this.title = title
-        this.description = description
-        this.date = date
-        this.start_time = start_time
-        this.end_time = end_time
-        this.price = price
-        this.studio_id = studio_id
-        this.level_id = level_id
-        this.teacher_id = teacher_id
+    constructor(danceClassObj) {
+        this.id = danceClassObj.id
+        this.title = danceClassObj.attributes.title
+        this.description = danceClassObj.attributes.description
+        this.date = danceClassObj.attributes.date
+        this.start_time = danceClassObj.attributes.start_time
+        this.end_time = danceClassObj.attributes.end_time
+        this.price = danceClassObj.attributes.price
+        this.studio_id = danceClassObj.attributes.studio.id
+        this.level_id = danceClassObj.attributes.level.id
+        this.teacher_id = danceClassObj.attributes.teacher.id
+        this.teacher = danceClassObj.attributes.teacher.name
+        this.level = danceClassObj.attributes.level.title
         DanceClass.all.push(this)
     }
-    
-    static renderDanceClasses = (dance_classes) => {
-        dance_classes.data.forEach(dance_class => this.renderDanceClass(dance_class))
+
+    // constructor(id, title, description, date, start_time, end_time, price, teacher_id, level_id, studio_id) {
+    //     this.id = id
+    //     this.title = title
+    //     this.description = description
+    //     this.date = date
+    //     this.start_time = start_time
+    //     this.end_time = end_time
+    //     this.price = price
+    //     this.studio_id = studio_id
+    //     this.level_id = level_id
+    //     this.teacher_id = teacher_id
+    //     DanceClass.all.push(this)
+    // }
+
+    amOrPm = (startHour, startMinutes) => {
+        if (startHour >= 12 && startHour <= 24) {
+            return `${startHour%12}:${startMinutes} pm`
+        } else if (startHour >= 0 && startHour < 12) {
+            return `${startHour%12}:${startMinutes} am`
+        }
     }
 
-    static renderDanceClass = (dance_class) => {
+    timeDuration = (startHour, endHour, startMinutes, endMinutes) => {        
+        if (startMinutes === '30') {
+            return ((endHour - startHour) * 60) - 30
+        } else if (endMinutes === '30') {
+            ((endHour - startHour) * 60) + 30
+        }
+    }
+
+    militaryTime = (startTimeArrayFirstSplit, startTimeArray) => {
+        if (startTimeArrayFirstSplit[1] === 'pm') {
+            const militaryHour = (parseInt(startTimeArray[0]) + 12).toString()
+            return `${militaryHour}:${startTimeArray[1]}`
+        } else {
+            return `${startTimeArray[0]}:${startTimeArray[1]}`
+        }
+    }
+
+    renderDanceClass = () => {
         const div = document.createElement('div')
         div.className = 'danceClassBox'
-        div.dataset.id = dance_class.id
+        div.dataset.id = this.id
 
-        const startTimeArrayFirstSplit = dance_class.attributes.start_time.split("T")
+        const startTimeArrayFirstSplit = this.start_time.split("T")
         const startTimeArraySecondSplit = startTimeArrayFirstSplit[1].split(".")
         const startTimeThirdSplit = startTimeArraySecondSplit.toString().split(':')
         const startHour = startTimeThirdSplit[0]
         const startMinutes = startTimeThirdSplit[1]
 
-        const endTimeArrayFirstSplit = dance_class.attributes.end_time.split("T")
+        const endTimeArrayFirstSplit = this.end_time.split("T")
         const endTimeArraySecondSplit = endTimeArrayFirstSplit[1].split(".")
         const endTimeThirdSplit = endTimeArraySecondSplit.toString().split(':')
         const endHour = endTimeThirdSplit[0]
         const endMinutes = endTimeThirdSplit[1]
 
-        const dateArray = dance_class.attributes.date.split("-")
-
-        // const classDuration = ((endHour - startHour) * 60) - 30
+        const dateArray = this.date.split("-")
 
         div.innerHTML = `
-            <p><strong class="date">${dateArray[1]}/${dateArray[2]}/${dateArray[0]}</strong> @ 
-            <strong class="startTime">${startHour}:${startMinutes}</strong> - 
-            <strong class="endTime">${endHour}:${endMinutes}</strong> 
-            <strong class="classLevel"> ${dance_class.attributes.level.title}</strong>
-            <strong class="classTitle">${dance_class.attributes.title}</strong>
-             w/ <span class="teacherName">${dance_class.attributes.teacher.name}</span>
+            <p><strong class="date">${dateArray[1]}/${dateArray[2]}/${dateArray[0]}</strong> | 
+            <strong class="startTime">${this.amOrPm(startHour, startMinutes)}</strong> - 
+            <strong class="endTime">${this.amOrPm(endHour, endMinutes)}</strong>
+            <span class="timeDuration">(${this.timeDuration(startHour, endHour, startMinutes, endMinutes)} min)</span> | 
+            <strong class="classLevel" data-id="${this.level_id}"> ${this.level}</strong> | 
+            <strong class="classTitle">${this.title}</strong>
+             w/ <span class="teacherName">${this.teacher}</span>
             <a href="#" class="teacherBio">Teacher Bio</a></p>
-            <button class="editButton" data-id="${dance_class.id}">Edit</button>
-            <button class="deleteButton" data-id="${dance_class.id}">Delete</button>
+            <button class="editButton" data-id="${this.id}">Edit</button>
+            <button class="deleteButton" data-id="${this.id}">Delete</button>
         `
         danceClassContainer.append(div)
 
-        document.querySelector(`.deleteButton[data-id="${dance_class.id}"]`).addEventListener('click', this.handleDelete)
-        document.querySelector(`.editButton[data-id="${dance_class.id}"]`).addEventListener('click', this.handleEditButton)
+        document.querySelector(`.deleteButton[data-id="${this.id}"]`).addEventListener('click', this.handleDelete)
+        document.querySelector(`.editButton[data-id="${this.id}"]`).addEventListener('click', this.handleEditButton)
     }
 
-    static handleDelete = (e) => {
+    handleDelete = (e) => {
         fetch(`http://127.0.0.1:3000/dance_classes/${e.target.dataset.id}`, {
             method: 'DELETE',
             headers: {'Content-Type': 'application/json'}
@@ -69,7 +105,7 @@ class DanceClass {
         })
     }
 
-    static handleEditButton = (event) => {
+    handleEditButton = (event) => {
         if (event.target.innerText === "Edit") {
             this.handleUpdate(event)
         } else {
@@ -77,16 +113,22 @@ class DanceClass {
         }
     }
 
-    static handleUpdate = (event) => {
+    handleUpdate = (event) => {
+        const startTimeArrayFirstSplit = event.target.parentElement.querySelector('.startTime').innerText.split(' ')
+        const startTimeArray = startTimeArrayFirstSplit[0].split(':')
+
+        const endTimeArrayFirstSplit = event.target.parentElement.querySelector('.endTime').innerText.split(' ')
+        const endTimeArray = endTimeArrayFirstSplit[0].split(':')
+        
         const dateArray = event.target.parentElement.querySelector('.date').innerText.split("/")
         
         event.target.parentElement.innerHTML = `
             <label for="date">Date: </label>
             <input id="editDate" name="date" type="date" value="${dateArray[2]}-${dateArray[0]}-${dateArray[1]}">
             <label for="start_time">Start Time: </label>
-            <input id="editStartTime" name="start_time" type="time" value="${event.target.parentElement.querySelector('.startTime').innerText}">
+            <input id="editStartTime" name="start_time" type="time" value="${this.militaryTime(startTimeArrayFirstSplit, startTimeArray)}">
             <label for="end_time">End Time: </label>
-            <input id="editEndTime" name="end_time" type="time" value="${event.target.parentElement.querySelector('.endTime').innerText}">
+            <input id="editEndTime" name="end_time" type="time" value="${this.militaryTime(endTimeArrayFirstSplit, endTimeArray)}">
             <label for="level">Level: </label>
             <select name="levels" id="editLevel" ></select>
             <label for="title">Class Title: </label>
@@ -98,7 +140,7 @@ class DanceClass {
             <br><br>
             <button class="updateButton" data-id="${event.target.dataset.id}">Update</button> 
         `
-
+        
         const levelCollection = Level.all.map(level => `<option value="${level.id}" selected>${level.attributes.title}</option>`)
         editLevel.innerHTML = levelCollection.join("")
 
@@ -108,7 +150,7 @@ class DanceClass {
         document.querySelector(`.updateButton[data-id="${event.target.dataset.id}"]`).addEventListener('click', this.handleFetchUpdate)
     }
 
-    static handleFetchUpdate = (e) => {
+    handleFetchUpdate = (e) => {
         const data = {
             title: e.target.parentElement.querySelector('#editClassTitle').value,
             date: e.target.parentElement.querySelector('#editDate').value,
@@ -128,8 +170,7 @@ class DanceClass {
         .catch(err => alert(err))
     }
 
-    // need to replace the danceClassBox on the page instead of moving it in the list
-    static replaceDanceClassBox = (danceClass, div) => {
+    replaceDanceClassBox = (danceClass, div) => {
         const startTimeArrayFirstSplit = danceClass.attributes.start_time.split("T")
         const startTimeArraySecondSplit = startTimeArrayFirstSplit[1].split(".")
         const startTimeThirdSplit = startTimeArraySecondSplit.toString().split(':')
@@ -146,8 +187,8 @@ class DanceClass {
         
         div.innerHTML = `
             <p><strong class="date">${dateArray[1]}/${dateArray[2]}/${dateArray[0]}</strong> @ 
-            <strong class="startTime">${startHour}:${startMinutes}</strong> - 
-            <strong class="endTime">${endHour}:${endMinutes}</strong> 
+            <strong class="startTime">${this.amOrPm(startHour, startMinutes)}</strong> - 
+            <strong class="endTime">${this.amOrPm(endHour, endMinutes)}</strong> 
             <strong class="classLevel"> ${danceClass.attributes.level.title}</strong>
             <strong class="classTitle">${danceClass.attributes.title}</strong>
              w/ <span class="teacherName">${danceClass.attributes.teacher.name}</span>
@@ -159,37 +200,45 @@ class DanceClass {
         document.querySelector(`.editButton[data-id="${danceClass.id}"]`).addEventListener('click', this.handleUpdate)
     }
 
-    // static amOrPm = (startHour, startMinutes) => {
-    //     // debugger
-    //     if (startHour >= 12 && startHour <= 24) {
-    //         `${startHour%12}:${startMinutes} pm`
-    //     } else if (startHour >= 0 && startHour < 12) {
-    //         `${startHour%12}:${startMinutes} am`
-    //     }
+    // static renderDanceClasses = (dance_classes) => {
+    //     dance_classes.data.forEach(dance_class => this.renderDanceClass(dance_class))
     // }
 
-    // amOrPm = (startHour) => {
-    //     if (startHour >= 12 && startHour <= 24) {
-    //         document.querySelector('.startTime').innerHTML = `${startHour%12}:${startMinutes} pm`
-    //     } else if (startHour >= 0 && startHour < 12) {
-    //         document.querySelector('.startTime').innerHTML = `${startHour%12}:${startMinutes} am`
-    //     }
-    // }
+    // static renderDanceClass = (dance_class) => {
+    //     const div = document.createElement('div')
+    //     div.className = 'danceClassBox'
+    //     div.dataset.id = dance_class.id
 
-    // static timeDuration = (startHour, endHour, startMinutes, endMinutes) => {
-    //     debugger
-        
-    //     if (startMinutes === 30) {
-    //         // debugger
-    //         ((endHour - startHour) * 60) - 30
-    //     } else if (endMinutes === 30) {
-    //         ((endHour - startHour) * 60) + 30
-    //     }
-    // }
+    //     const startTimeArrayFirstSplit = dance_class.attributes.start_time.split("T")
+    //     const startTimeArraySecondSplit = startTimeArrayFirstSplit[1].split(".")
+    //     const startTimeThirdSplit = startTimeArraySecondSplit.toString().split(':')
+    //     const startHour = startTimeThirdSplit[0]
+    //     const startMinutes = startTimeThirdSplit[1]
 
-    // displayTeacherBio = (e) => {
-    //     debugger
-    // }
+    //     const endTimeArrayFirstSplit = dance_class.attributes.end_time.split("T")
+    //     const endTimeArraySecondSplit = endTimeArrayFirstSplit[1].split(".")
+    //     const endTimeThirdSplit = endTimeArraySecondSplit.toString().split(':')
+    //     const endHour = endTimeThirdSplit[0]
+    //     const endMinutes = endTimeThirdSplit[1]
 
-    // how utilize class and instance methods????? and how decide which one to use???
+    //     const dateArray = dance_class.attributes.date.split("-")
+
+    //     // const classDuration = ((endHour - startHour) * 60) - 30
+
+    //     div.innerHTML = `
+    //         <p><strong class="date">${dateArray[1]}/${dateArray[2]}/${dateArray[0]}</strong> @ 
+    //         <strong class="startTime">${startHour}:${startMinutes}</strong> - 
+    //         <strong class="endTime">${endHour}:${endMinutes}</strong> 
+    //         <strong class="classLevel"> ${dance_class.attributes.level.title}</strong>
+    //         <strong class="classTitle">${dance_class.attributes.title}</strong>
+    //          w/ <span class="teacherName">${dance_class.attributes.teacher.name}</span>
+    //         <a href="#" class="teacherBio">Teacher Bio</a></p>
+    //         <button class="editButton" data-id="${dance_class.id}">Edit</button>
+    //         <button class="deleteButton" data-id="${dance_class.id}">Delete</button>
+    //     `
+    //     danceClassContainer.append(div)
+
+    //     document.querySelector(`.deleteButton[data-id="${dance_class.id}"]`).addEventListener('click', this.handleDelete)
+    //     document.querySelector(`.editButton[data-id="${dance_class.id}"]`).addEventListener('click', this.handleEditButton)
+    // }
 }

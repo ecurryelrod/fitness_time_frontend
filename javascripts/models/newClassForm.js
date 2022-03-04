@@ -61,12 +61,14 @@ class NewClassForm {
         }
         fetch('http://127.0.0.1:3000/dance_classes', {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: {'Content-Type': 'application/json',},
             body: JSON.stringify(data)
         })
         .then(resp => resp.json())
         .then(json => {
-            DanceClass.renderDanceClass(json.data)
+            const newDanceClass = new DanceClass(json.data)
+            newDanceClass.renderDanceClass()
+            // DanceClass.renderDanceClass(json.data)
             classForm().reset()
         })
     }

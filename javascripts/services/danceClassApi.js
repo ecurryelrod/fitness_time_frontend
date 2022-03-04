@@ -4,7 +4,10 @@ class DanceClassApi {
             headers: {'Access-Control-Allow-Origin': '*'}
         })
         .then(resp => resp.json())
-        // .then(json => {debugger})
-        .then(json => DanceClass.renderDanceClasses(json))
+        // .then(json => DanceClass.renderDanceClasses(json))
+        .then(json => json.data.forEach(danceClassObj => {
+            const addDanceClass = new DanceClass(danceClassObj)
+            addDanceClass.renderDanceClass()
+        }))
     }
 }

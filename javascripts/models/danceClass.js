@@ -13,6 +13,7 @@ class DanceClass {
         this.level_id = danceClassObj.attributes.level.id
         this.teacher_id = danceClassObj.attributes.teacher.id
         this.teacher = danceClassObj.attributes.teacher.name
+        this.teacherBio = danceClassObj.attributes.teacher.bio
         this.level = danceClassObj.attributes.level.title
         DanceClass.all.push(this)
     }
@@ -31,11 +32,13 @@ class DanceClass {
     //     DanceClass.all.push(this)
     // }
 
-    amOrPm = (startHour, startMinutes) => {
-        if (startHour >= 12 && startHour <= 24) {
-            return `${startHour%12}:${startMinutes} pm`
-        } else if (startHour >= 0 && startHour < 12) {
-            return `${startHour%12}:${startMinutes} am`
+    amOrPm = (hour, minutes) => {
+        if (hour > 12 && hour <= 24) {
+            return `${hour%12}:${minutes} pm`
+        } else if (hour == 12) {
+            return `${hour}:${minutes} pm`
+        } else if (hour >= 0 && hour <= 12) {
+            return `${hour}:${minutes} am`
         }
     }
 
@@ -43,7 +46,7 @@ class DanceClass {
         if (startMinutes === '30') {
             return ((endHour - startHour) * 60) - 30
         } else if (endMinutes === '30') {
-            ((endHour - startHour) * 60) + 30
+            return ((endHour - startHour) * 60) + 30
         }
     }
 
@@ -74,16 +77,20 @@ class DanceClass {
         const endMinutes = endTimeThirdSplit[1]
 
         const dateArray = this.date.split("-")
-
+        // debugger
         div.innerHTML = `
             <p><strong class="date">${dateArray[1]}/${dateArray[2]}/${dateArray[0]}</strong> | 
             <strong class="startTime">${this.amOrPm(startHour, startMinutes)}</strong> - 
             <strong class="endTime">${this.amOrPm(endHour, endMinutes)}</strong>
             <span class="timeDuration">(${this.timeDuration(startHour, endHour, startMinutes, endMinutes)} min)</span> | 
-            <strong class="classLevel" data-id="${this.level_id}"> ${this.level}</strong> | 
-            <strong class="classTitle">${this.title}</strong>
-             w/ <span class="teacherName">${this.teacher}</span>
-            <a href="#" class="teacherBio">Teacher Bio</a></p>
+            <strong>Class Level: </strong>
+            <span class="classLevel" data-id="${this.level_id}">${this.level}</span> | 
+            <strong>Class Title: </strong>
+            <span class="classTitle">${this.title}</span>
+             w/ <strong class="teacherName">${this.teacher}</strong> | 
+            <strong>Class Description: </strong>
+            <span class="classDescription">${this.description}</span> | 
+            <a href="#" class="teacherBio">Teacher Bio:</a></p>
             <button class="editButton" data-id="${this.id}">Edit</button>
             <button class="deleteButton" data-id="${this.id}">Delete</button>
         `
@@ -126,15 +133,17 @@ class DanceClass {
             <label for="date">Date: </label>
             <input id="editDate" name="date" type="date" value="${dateArray[2]}-${dateArray[0]}-${dateArray[1]}">
             <label for="start_time">Start Time: </label>
-            <input id="editStartTime" name="start_time" type="time" value="${this.militaryTime(startTimeArrayFirstSplit, startTimeArray)}">
+            <input id="editStartTime" name="start_time" type="time" value="${this.militaryTime(startTimeArrayFirstSplit, startTimeArray)}" step="900">
             <label for="end_time">End Time: </label>
-            <input id="editEndTime" name="end_time" type="time" value="${this.militaryTime(endTimeArrayFirstSplit, endTimeArray)}">
+            <input id="editEndTime" name="end_time" type="time" value="${this.militaryTime(endTimeArrayFirstSplit, endTimeArray)}" step="900">
             <label for="level">Level: </label>
             <select name="levels" id="editLevel" ></select>
             <label for="title">Class Title: </label>
             <input id="editClassTitle" name="title" type="text" value="${event.target.parentElement.querySelector('.classTitle').innerText}">
             <label for="teacherName">Teacher Name: </label>
             <select name="teachers" id="editTeacher"></select>
+            <label for="title">Class Description: </label>
+            <input id="editDescription" name="description" type="text" value="${event.target.parentElement.querySelector('.classDescription').innerText}">
             <label for="title">Teacher Bio: </label>
             <input id="editTeacherBio" name="bio" type="text" value="${event.target.parentElement.querySelector('.teacherBio').innerText}">
             <br><br>
@@ -156,6 +165,7 @@ class DanceClass {
             date: e.target.parentElement.querySelector('#editDate').value,
             start_time: e.target.parentElement.querySelector('#editStartTime').value,
             end_time: e.target.parentElement.querySelector('#editEndTime').value,
+            description: e.target.parentElement.querySelector('#editDescription').value,
             teacher_id: e.target.parentElement.querySelector('#editTeacher').dataset.id,
             level_id: e.target.parentElement.querySelector('#editLevel').dataset.id,
         }
@@ -186,12 +196,17 @@ class DanceClass {
         const dateArray = danceClass.attributes.date.split("-")
         
         div.innerHTML = `
-            <p><strong class="date">${dateArray[1]}/${dateArray[2]}/${dateArray[0]}</strong> @ 
+            <p><strong class="date">${dateArray[1]}/${dateArray[2]}/${dateArray[0]}</strong> | 
             <strong class="startTime">${this.amOrPm(startHour, startMinutes)}</strong> - 
             <strong class="endTime">${this.amOrPm(endHour, endMinutes)}</strong> 
-            <strong class="classLevel"> ${danceClass.attributes.level.title}</strong>
-            <strong class="classTitle">${danceClass.attributes.title}</strong>
-             w/ <span class="teacherName">${danceClass.attributes.teacher.name}</span>
+            <span class="timeDuration">(${this.timeDuration(startHour, endHour, startMinutes, endMinutes)} min)</span> | 
+            <strong>Class Level: </strong>
+            <span class="classLevel"> ${danceClass.attributes.level.title}</span> | 
+            <strong>Class Title: </strong>
+            <span class="classTitle">${danceClass.attributes.title}</span>
+             w/ <strong class="teacherName">${danceClass.attributes.teacher.name}</strong> | 
+            <strong>Class Description: </strong>
+            <span class="classDescription">${danceClass.attributes.description}</span> | 
             <a href="#" class="teacherBio">Teacher Bio </a></p>
             <button class="editButton" data-id="${danceClass.id}">Edit</button>
             <button class="deleteButton" data-id="${danceClass.id}">Delete</button>

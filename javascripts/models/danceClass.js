@@ -77,7 +77,7 @@ class DanceClass {
         const endMinutes = endTimeThirdSplit[1]
 
         const dateArray = this.date.split("-")
-        // debugger
+        
         div.innerHTML = `
             <p><strong class="date">${dateArray[1]}/${dateArray[2]}/${dateArray[0]}</strong> | 
             <strong class="startTime">${this.amOrPm(startHour, startMinutes)}</strong> - 
@@ -214,46 +214,4 @@ class DanceClass {
         document.querySelector(`.deleteButton[data-id="${danceClass.id}"]`).addEventListener('click', this.handleDelete)
         document.querySelector(`.editButton[data-id="${danceClass.id}"]`).addEventListener('click', this.handleUpdate)
     }
-
-    // static renderDanceClasses = (dance_classes) => {
-    //     dance_classes.data.forEach(dance_class => this.renderDanceClass(dance_class))
-    // }
-
-    // static renderDanceClass = (dance_class) => {
-    //     const div = document.createElement('div')
-    //     div.className = 'danceClassBox'
-    //     div.dataset.id = dance_class.id
-
-    //     const startTimeArrayFirstSplit = dance_class.attributes.start_time.split("T")
-    //     const startTimeArraySecondSplit = startTimeArrayFirstSplit[1].split(".")
-    //     const startTimeThirdSplit = startTimeArraySecondSplit.toString().split(':')
-    //     const startHour = startTimeThirdSplit[0]
-    //     const startMinutes = startTimeThirdSplit[1]
-
-    //     const endTimeArrayFirstSplit = dance_class.attributes.end_time.split("T")
-    //     const endTimeArraySecondSplit = endTimeArrayFirstSplit[1].split(".")
-    //     const endTimeThirdSplit = endTimeArraySecondSplit.toString().split(':')
-    //     const endHour = endTimeThirdSplit[0]
-    //     const endMinutes = endTimeThirdSplit[1]
-
-    //     const dateArray = dance_class.attributes.date.split("-")
-
-    //     // const classDuration = ((endHour - startHour) * 60) - 30
-
-    //     div.innerHTML = `
-    //         <p><strong class="date">${dateArray[1]}/${dateArray[2]}/${dateArray[0]}</strong> @ 
-    //         <strong class="startTime">${startHour}:${startMinutes}</strong> - 
-    //         <strong class="endTime">${endHour}:${endMinutes}</strong> 
-    //         <strong class="classLevel"> ${dance_class.attributes.level.title}</strong>
-    //         <strong class="classTitle">${dance_class.attributes.title}</strong>
-    //          w/ <span class="teacherName">${dance_class.attributes.teacher.name}</span>
-    //         <a href="#" class="teacherBio">Teacher Bio</a></p>
-    //         <button class="editButton" data-id="${dance_class.id}">Edit</button>
-    //         <button class="deleteButton" data-id="${dance_class.id}">Delete</button>
-    //     `
-    //     danceClassContainer.append(div)
-
-    //     document.querySelector(`.deleteButton[data-id="${dance_class.id}"]`).addEventListener('click', this.handleDelete)
-    //     document.querySelector(`.editButton[data-id="${dance_class.id}"]`).addEventListener('click', this.handleEditButton)
-    // }
 }

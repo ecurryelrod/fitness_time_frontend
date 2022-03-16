@@ -97,7 +97,7 @@ class DanceClass {
         danceClassContainer.append(div)
 
         document.querySelector(`.deleteButton[data-id="${this.id}"]`).addEventListener('click', this.handleDelete)
-        document.querySelector(`.editButton[data-id="${this.id}"]`).addEventListener('click', this.handleEditButton)
+        document.querySelector(`.editButton[data-id="${this.id}"]`).addEventListener('click', this.handleUpdate)
     }
 
     handleDelete = (e) => {
@@ -110,14 +110,6 @@ class DanceClass {
             e.target.parentElement.remove()
             alert(json.message)
         })
-    }
-
-    handleEditButton = (event) => {
-        if (event.target.innerText === "Edit") {
-            this.handleUpdate(event)
-        } else {
-            this.handleFetchUpdate(event)
-        }
     }
 
     handleUpdate = (event) => {
@@ -133,9 +125,9 @@ class DanceClass {
             <label for="date">Date: </label>
             <input id="editDate" name="date" type="date" value="${dateArray[2]}-${dateArray[0]}-${dateArray[1]}">
             <label for="start_time">Start Time: </label>
-            <input id="editStartTime" name="start_time" type="time" value="${this.militaryTime(startTimeArrayFirstSplit, startTimeArray)}" step="900">
+            <input id="editStartTime" name="start_time" type="time" value="${this.militaryTime(startTimeArrayFirstSplit, startTimeArray)}" step="1800">
             <label for="end_time">End Time: </label>
-            <input id="editEndTime" name="end_time" type="time" value="${this.militaryTime(endTimeArrayFirstSplit, endTimeArray)}" step="900">
+            <input id="editEndTime" name="end_time" type="time" value="${this.militaryTime(endTimeArrayFirstSplit, endTimeArray)}" step="1800">
             <label for="level">Level: </label>
             <select name="levels" id="editLevel" ></select>
             <label for="title">Class Title: </label>
@@ -144,8 +136,6 @@ class DanceClass {
             <select name="teachers" id="editTeacher"></select>
             <label for="title">Class Description: </label>
             <input id="editDescription" name="description" type="text" value="${event.target.parentElement.querySelector('.classDescription').innerText}">
-            <label for="title">Teacher Bio: </label>
-            <input id="editTeacherBio" name="bio" type="text" value="${event.target.parentElement.querySelector('.teacherBio').innerText}">
             <br><br>
             <button class="updateButton" data-id="${event.target.dataset.id}">Update</button> 
         `

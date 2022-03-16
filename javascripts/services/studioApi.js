@@ -4,8 +4,12 @@ class StudioApi {
             headers: {'Access-Control-Allow-Origin': '*'}
         })
         .then(resp => resp.json())
-        .then(json => Studio.renderStudio(json))
+        // .then(json => Studio.renderStudio(json))
         // .then(json => {debugger})
+        .then(json => {
+            let studio = new Studio(json.data)
+            studio.renderStudio()
+        })
         .catch(err => alert(err))
     }
 }

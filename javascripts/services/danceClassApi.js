@@ -58,7 +58,7 @@ class DanceClassApi {
             date: e.target.parentElement.querySelector('#editDate').value,
             start_time: e.target.parentElement.querySelector('#editStartTime').value,
             end_time: e.target.parentElement.querySelector('#editEndTime').value,
-            // description: e.target.parentElement.querySelector('#editDescription').value,
+            description: e.target.parentElement.querySelector('#editDescription').value,
             // teacher_id: e.target.parentElement.querySelector('#editTeacher').dataset.id,
             // level_id: e.target.parentElement.querySelector('#editLevel').dataset.id,
         }

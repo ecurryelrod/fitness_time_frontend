@@ -37,6 +37,7 @@ class DanceClass {
         let danceClass = DanceClass.all.find(dc => dc.id === danceClassObj.id)
         
         danceClass.title = danceClassObj.attributes.title
+        danceClass.description = danceClassObj.attributes.description
         danceClass.date = danceClassObj.attributes.date
         danceClass.start_time = danceClassObj.attributes.start_time
         danceClass.end_time = danceClassObj.attributes.end_time
@@ -138,12 +139,11 @@ class DanceClass {
             <input id="editEndTime" name="end_time" type="time" value="${this.militaryTime(endTimeArrayFirstSplit, endTimeArray)}" step="1800">
             <label for="title">Class Title: </label>
             <input id="editClassTitle" name="title" type="text" value="${event.target.parentElement.querySelector('.classTitle').innerText}">
-            <label for="title">Class Description: </label>
+            <label for="description">Class Description: </label>
             <input id="editDescription" name="description" type="text" value="${event.target.parentElement.querySelector('.classDescription').innerText}">
             <br><br>
             <button class="updateButton" data-id="${event.target.dataset.id}">Update</button> 
         `
-        // do not need to update everything to have object update properly (see updateDanceClass)
 
         document.querySelector(`.updateButton[data-id="${event.target.dataset.id}"]`).addEventListener('click', DanceClassApi.handleFetchUpdate)
     }

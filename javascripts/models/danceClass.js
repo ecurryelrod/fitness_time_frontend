@@ -18,6 +18,16 @@ class DanceClass {
         DanceClass.all.push(this)
     }
 
+    updateDanceClass = (danceClassObj) => {
+        let danceClass = DanceClass.all.find(dc => dc.id === danceClassObj.id)
+        
+        danceClass.title = danceClassObj.attributes.title
+        danceClass.date = danceClassObj.attributes.date
+        danceClass.start_time = danceClassObj.attributes.start_time
+        danceClass.end_time = danceClassObj.attributes.end_time
+        return danceClass
+    }
+
     // constructor(id, title, description, date, start_time, end_time, price, teacher_id, level_id, studio_id) {
     //     this.id = id
     //     this.title = title
@@ -127,51 +137,30 @@ class DanceClass {
             <br><br>
             <button class="updateButton" data-id="${event.target.dataset.id}">Update</button> 
         `
-        
+
         const levelCollection = Level.all.map(level => `<option value="${level.id}" selected>${level.attributes.title}</option>`)
         editLevel.innerHTML = levelCollection.join("")
 
         const teacherCollection = Teacher.all.map(teacher => `<option value="${teacher.id}">${teacher.attributes.name}</option>`)
         editTeacher.innerHTML = teacherCollection.join("")
 
-        document.querySelector(`.updateButton[data-id="${event.target.dataset.id}"]`).addEventListener('click', this.handleFetchUpdate)
+        document.querySelector(`.updateButton[data-id="${event.target.dataset.id}"]`).addEventListener('click', DanceClassApi.handleFetchUpdate)
     }
 
-    handleFetchUpdate = (e) => {
-        const data = {
-            title: e.target.parentElement.querySelector('#editClassTitle').value,
-            date: e.target.parentElement.querySelector('#editDate').value,
-            start_time: e.target.parentElement.querySelector('#editStartTime').value,
-            end_time: e.target.parentElement.querySelector('#editEndTime').value,
-            description: e.target.parentElement.querySelector('#editDescription').value,
-            teacher_id: e.target.parentElement.querySelector('#editTeacher').dataset.id,
-            level_id: e.target.parentElement.querySelector('#editLevel').dataset.id,
-        }
-
-        fetch(`http://127.0.0.1:3000/dance_classes/${e.target.dataset.id}`, {
-            method: 'PATCH',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(data)
-        })
-        .then(resp => resp.json())
-        .then(json => this.replaceDanceClassBox(json.data, e.target.parentElement))
-        .catch(err => alert(err))
-    }
-
-    replaceDanceClassBox = (danceClass, div) => {
-        const startTimeArrayFirstSplit = danceClass.attributes.start_time.split("T")
+    replaceDanceClassBox = (div) => {
+        const startTimeArrayFirstSplit = this.start_time.split("T")
         const startTimeArraySecondSplit = startTimeArrayFirstSplit[1].split(".")
         const startTimeThirdSplit = startTimeArraySecondSplit.toString().split(':')
         const startHour = startTimeThirdSplit[0]
         const startMinutes = startTimeThirdSplit[1]
 
-        const endTimeArrayFirstSplit = danceClass.attributes.end_time.split("T")
+        const endTimeArrayFirstSplit = this.end_time.split("T")
         const endTimeArraySecondSplit = endTimeArrayFirstSplit[1].split(".")
         const endTimeThirdSplit = endTimeArraySecondSplit.toString().split(':')
         const endHour = endTimeThirdSplit[0]
         const endMinutes = endTimeThirdSplit[1]
 
-        const dateArray = danceClass.attributes.date.split("-")
+        const dateArray = this.date.split("-")
         
         div.innerHTML = `
             <p><strong class="date">${dateArray[1]}/${dateArray[2]}/${dateArray[0]}</strong> | 
@@ -179,17 +168,17 @@ class DanceClass {
             <strong class="endTime">${this.amOrPm(endHour, endMinutes)}</strong> 
             <span class="timeDuration">(${this.timeDuration(startHour, endHour, startMinutes, endMinutes)} min)</span> | 
             <strong>Class Level: </strong>
-            <span class="classLevel"> ${danceClass.attributes.level.title}</span> | 
+            <span class="classLevel"> ${this.level.title}</span> | 
             <strong>Class Title: </strong>
-            <span class="classTitle">${danceClass.attributes.title}</span>
-             w/ <strong class="teacherName">${danceClass.attributes.teacher.name}</strong> | 
+            <span class="classTitle">${this.title}</span>
+             w/ <strong class="teacherName">${this.teacher.name}</strong> | 
             <strong>Class Description: </strong>
-            <span class="classDescription">${danceClass.attributes.description}</span> | 
+            <span class="classDescription">${this.description}</span> | 
             <a href="#" class="teacherBio">Teacher Bio </a></p>
-            <button class="editButton" data-id="${danceClass.id}">Edit</button>
-            <button class="deleteButton" data-id="${danceClass.id}">Delete</button>
+            <button class="editButton" data-id="${this.id}">Edit</button>
+            <button class="deleteButton" data-id="${this.id}">Delete</button>
         `
-        document.querySelector(`.deleteButton[data-id="${danceClass.id}"]`).addEventListener('click', this.handleDelete)
-        document.querySelector(`.editButton[data-id="${danceClass.id}"]`).addEventListener('click', this.handleUpdate)
+        document.querySelector(`.deleteButton[data-id="${this.id}"]`).addEventListener('click', DanceClassApi.handleDelete)
+        document.querySelector(`.editButton[data-id="${this.id}"]`).addEventListener('click', this.handleUpdate)
     }
 }

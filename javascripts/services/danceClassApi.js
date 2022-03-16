@@ -51,4 +51,30 @@ class DanceClassApi {
             alert(json.message)
         })
     }
+
+    static handleFetchUpdate = (e) => {
+        const data = {
+            title: e.target.parentElement.querySelector('#editClassTitle').value,
+            date: e.target.parentElement.querySelector('#editDate').value,
+            start_time: e.target.parentElement.querySelector('#editStartTime').value,
+            end_time: e.target.parentElement.querySelector('#editEndTime').value,
+            // description: e.target.parentElement.querySelector('#editDescription').value,
+            // teacher_id: e.target.parentElement.querySelector('#editTeacher').dataset.id,
+            // level_id: e.target.parentElement.querySelector('#editLevel').dataset.id,
+        }
+
+        fetch(`http://127.0.0.1:3000/dance_classes/${e.target.dataset.id}`, {
+            method: 'PATCH',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
+        })
+        .then(resp => resp.json())
+        // .then(json => this.replaceDanceClassBox(json.data, e.target.parentElement))
+        .then(json => {
+            let danceClass = DanceClass.all.find(dcObj => dcObj.id === json.data.id)
+            let updatedDanceClass = danceClass.updateDanceClass(json.data)
+            updatedDanceClass.replaceDanceClassBox(e.target.parentElement)
+        })
+        .catch(err => alert(err))
+    }
 }

@@ -18,16 +18,6 @@ class DanceClass {
         DanceClass.all.push(this)
     }
 
-    updateDanceClass = (danceClassObj) => {
-        let danceClass = DanceClass.all.find(dc => dc.id === danceClassObj.id)
-        
-        danceClass.title = danceClassObj.attributes.title
-        danceClass.date = danceClassObj.attributes.date
-        danceClass.start_time = danceClassObj.attributes.start_time
-        danceClass.end_time = danceClassObj.attributes.end_time
-        return danceClass
-    }
-
     // constructor(id, title, description, date, start_time, end_time, price, teacher_id, level_id, studio_id) {
     //     this.id = id
     //     this.title = title
@@ -41,6 +31,17 @@ class DanceClass {
     //     this.teacher_id = teacher_id
     //     DanceClass.all.push(this)
     // }
+
+
+    updateDanceClass = (danceClassObj) => {
+        let danceClass = DanceClass.all.find(dc => dc.id === danceClassObj.id)
+        
+        danceClass.title = danceClassObj.attributes.title
+        danceClass.date = danceClassObj.attributes.date
+        danceClass.start_time = danceClassObj.attributes.start_time
+        danceClass.end_time = danceClassObj.attributes.end_time
+        return danceClass
+    }
 
     amOrPm = (hour, minutes) => {
         if (hour > 12 && hour <= 24) {
@@ -70,9 +71,6 @@ class DanceClass {
     }
 
     renderHTML = (div) => {
-        // for renderDanceClass and replaceDanceClass
-        // this.renderHTML(this, div)
-
         const startTimeArrayFirstSplit = this.start_time.split("T")
         const startTimeArraySecondSplit = startTimeArrayFirstSplit[1].split(".")
         const startTimeThirdSplit = startTimeArraySecondSplit.toString().split(':')
@@ -105,6 +103,11 @@ class DanceClass {
         `
     }
 
+    renderButtons = () => {
+        document.querySelector(`.deleteButton[data-id="${this.id}"]`).addEventListener('click', DanceClassApi.handleDelete)
+        document.querySelector(`.editButton[data-id="${this.id}"]`).addEventListener('click', this.handleUpdate)
+    }
+
     renderDanceClass = () => {
         const div = document.createElement('div')
         div.className = 'danceClassBox'
@@ -114,8 +117,7 @@ class DanceClass {
 
         danceClassContainer.append(div)
 
-        document.querySelector(`.deleteButton[data-id="${this.id}"]`).addEventListener('click', DanceClassApi.handleDelete)
-        document.querySelector(`.editButton[data-id="${this.id}"]`).addEventListener('click', this.handleUpdate)
+        this.renderButtons()
     }
 
     handleUpdate = (event) => {
@@ -134,31 +136,20 @@ class DanceClass {
             <input id="editStartTime" name="start_time" type="time" value="${this.militaryTime(startTimeArrayFirstSplit, startTimeArray)}" step="1800">
             <label for="end_time">End Time: </label>
             <input id="editEndTime" name="end_time" type="time" value="${this.militaryTime(endTimeArrayFirstSplit, endTimeArray)}" step="1800">
-            <label for="level">Level: </label>
-            <select name="levels" id="editLevel" ></select>
             <label for="title">Class Title: </label>
             <input id="editClassTitle" name="title" type="text" value="${event.target.parentElement.querySelector('.classTitle').innerText}">
-            <label for="teacherName">Teacher Name: </label>
-            <select name="teachers" id="editTeacher"></select>
             <label for="title">Class Description: </label>
             <input id="editDescription" name="description" type="text" value="${event.target.parentElement.querySelector('.classDescription').innerText}">
             <br><br>
             <button class="updateButton" data-id="${event.target.dataset.id}">Update</button> 
         `
-
-        const levelCollection = Level.all.map(level => `<option value="${level.id}" selected>${level.attributes.title}</option>`)
-        editLevel.innerHTML = levelCollection.join("")
-
-        const teacherCollection = Teacher.all.map(teacher => `<option value="${teacher.id}">${teacher.attributes.name}</option>`)
-        editTeacher.innerHTML = teacherCollection.join("")
+        // do not need to update everything to have object update properly (see updateDanceClass)
 
         document.querySelector(`.updateButton[data-id="${event.target.dataset.id}"]`).addEventListener('click', DanceClassApi.handleFetchUpdate)
     }
 
     replaceDanceClassBox = (div) => {
         this.renderHTML(div)
-        
-        document.querySelector(`.deleteButton[data-id="${this.id}"]`).addEventListener('click', DanceClassApi.handleDelete)
-        document.querySelector(`.editButton[data-id="${this.id}"]`).addEventListener('click', this.handleUpdate)
+        this.renderButtons()
     }
 }

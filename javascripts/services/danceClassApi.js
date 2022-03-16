@@ -39,4 +39,16 @@ class DanceClassApi {
             classForm().reset()
         })
     }
+
+    static handleDelete = (e) => {
+        fetch(`http://127.0.0.1:3000/dance_classes/${e.target.dataset.id}`, {
+            method: 'DELETE',
+            headers: {'Content-Type': 'application/json'}
+        })
+        .then(resp => resp.json())
+        .then(json => {
+            e.target.parentElement.remove()
+            alert(json.message)
+        })
+    }
 }

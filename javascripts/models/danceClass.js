@@ -96,20 +96,8 @@ class DanceClass {
         `
         danceClassContainer.append(div)
 
-        document.querySelector(`.deleteButton[data-id="${this.id}"]`).addEventListener('click', this.handleDelete)
+        document.querySelector(`.deleteButton[data-id="${this.id}"]`).addEventListener('click', DanceClassApi.handleDelete)
         document.querySelector(`.editButton[data-id="${this.id}"]`).addEventListener('click', this.handleUpdate)
-    }
-
-    handleDelete = (e) => {
-        fetch(`http://127.0.0.1:3000/dance_classes/${e.target.dataset.id}`, {
-            method: 'DELETE',
-            headers: {'Content-Type': 'application/json'}
-        })
-        .then(resp => resp.json())
-        .then(json => {
-            e.target.parentElement.remove()
-            alert(json.message)
-        })
     }
 
     handleUpdate = (event) => {

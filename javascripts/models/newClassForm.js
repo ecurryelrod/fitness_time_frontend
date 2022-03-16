@@ -22,9 +22,9 @@ class NewClassForm {
                 <input id="inputDate" type="date" name="date">
                 <br><br>
                 <label>Start: </label>
-                <input id="inputStartTime" type="time" name="start_time" step="900">
+                <input id="inputStartTime" type="time" name="start_time" step="1800">
                 <label>End: </label>
-                <input id="inputEndTime" type="time" name="end_time" step="900">
+                <input id="inputEndTime" type="time" name="end_time" step="1800">
                 <br><br>
                 <select name="teachers" id="teacherId"></select>
                 <br><br>
@@ -37,39 +37,9 @@ class NewClassForm {
             const teacherCollection = Teacher.all.map(teacher => `<option value="${teacher.id}">${teacher.attributes.name}</option>`)
             teacherId.innerHTML = teacherCollection.join("")
     
-            classForm().addEventListener('submit', this.handleSubmit)
+            classForm().addEventListener('submit', DanceClassApi.handleSubmit)
         } else {
             classForm().remove()
         } 
-    }
-
-    static handleSubmit = (e) => {
-        e.preventDefault()
-        const data = {
-            title: e.target.inputTitle.value,
-            description: e.target.inputDescription.value,
-            date: e.target.inputDate.value,
-            start_time: e.target.inputStartTime.value,
-            end_time: e.target.inputEndTime.value,
-            teacher_id: e.target.teacherId.value,
-            // new_teacher: {
-            //     name: e.target.inputTeacherName.value,
-            //     bio: e.target.inputBio.value
-            // },
-            level_id: e.target.levelId.value,
-            studio_id: e.target.parentElement.dataset.id
-        }
-        fetch('http://127.0.0.1:3000/dance_classes', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json',},
-            body: JSON.stringify(data)
-        })
-        .then(resp => resp.json())
-        .then(json => {
-            const newDanceClass = new DanceClass(json.data)
-            newDanceClass.renderDanceClass()
-            // DanceClass.renderDanceClass(json.data)
-            classForm().reset()
-        })
     }
 }

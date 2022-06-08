@@ -9,6 +9,7 @@ class NewClassForm {
 
     static renderForm = () => {
         if (!classForm()) {
+            showForm.innerText = 'Hide Form'
             studioBox.insertAdjacentHTML('beforeend', `
             <form id="classForm">
                 <h3>Add a class</h3>
@@ -39,6 +40,7 @@ class NewClassForm {
     
             classForm().addEventListener('submit', DanceClassApi.handleSubmit)
         } else {
+            showForm.innerText = "Add a Dance Class"
             classForm().remove()
         } 
     }

@@ -54,11 +54,11 @@ class DanceClassApi {
 
     static handleFetchUpdate = (e) => {
         const data = {
-            title: e.target.parentElement.querySelector('#editClassTitle').value,
-            date: e.target.parentElement.querySelector('#editDate').value,
-            start_time: e.target.parentElement.querySelector('#editStartTime').value,
-            end_time: e.target.parentElement.querySelector('#editEndTime').value,
-            description: e.target.parentElement.querySelector('#editDescription').value,
+            title: e.target.parentElement.parentElement.querySelector('#editClassTitle').value,
+            date: e.target.parentElement.parentElement.querySelector('#editDate').value,
+            start_time: e.target.parentElement.parentElement.querySelector('#editStartTime').value,
+            end_time: e.target.parentElement.parentElement.querySelector('#editEndTime').value,
+            description: e.target.parentElement.parentElement.querySelector('#editDescription').value,
             // teacher_id: e.target.parentElement.querySelector('#editTeacher').dataset.id,
             // level_id: e.target.parentElement.querySelector('#editLevel').dataset.id,
         }

@@ -47,7 +47,7 @@ class DanceClassApi {
         })
         .then(resp => resp.json())
         .then(json => {
-            e.target.parentElement.remove()
+            e.target.parentElement.parentElement.remove()
             alert(json.message)
         })
     }

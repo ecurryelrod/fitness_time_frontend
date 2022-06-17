@@ -87,35 +87,64 @@ class DanceClass {
         const dateArray = this.date.split("-")
         
         div.innerHTML = `
-            <strong><span class="classTitle">${this.title}</span></strong> w/ <strong class="teacherName">${this.teacher}</strong>
+            <div class="classDetails">
+                <strong class="classTitle">${this.title}</strong> w/ <strong class="teacherName">${this.teacher}</strong>
+                <span class="classLevel" data-id="${this.level_id}">(${this.level})</span>
+            </div>
+            <div class="classDetails">
+                <strong class="date">${dateArray[1]}/${dateArray[2]}/${dateArray[0]}</strong> | 
+                <strong class="startTime">${this.amOrPm(startHour, startMinutes)}</strong> - 
+                <strong class="endTime">${this.amOrPm(endHour, endMinutes)}</strong>
+                <span class="timeDuration">(${this.timeDuration(startHour, endHour, startMinutes, endMinutes)} min)</span>
+            </div>
+            <div class="classDetails">
+                <button class="teacherPopupButton">Teacher Bio</button>
+                <button class="descPopupButton">Class Description</button>
+            </div>
             <br>
-            <span class="classLevel" data-id="${this.level_id}">(${this.level})</span>
-            <br>
-            <p><strong class="date">${dateArray[1]}/${dateArray[2]}/${dateArray[0]}</strong> | 
-            <strong class="startTime">${this.amOrPm(startHour, startMinutes)}</strong> - 
-            <strong class="endTime">${this.amOrPm(endHour, endMinutes)}</strong>
-            <span class="timeDuration">(${this.timeDuration(startHour, endHour, startMinutes, endMinutes)} min)</span>
-            <br>
-            <strong>Class Description: </strong>
-            <br>
-            <span class="classDescription">${this.description}</span>
+            <div class="classDetails">
+                <button class="editButton" data-id="${this.id}">Edit</button>
+                <button class="deleteButton" data-id="${this.id}">Delete</button>
+            </div>
             <br><br>
-            <button class="popupButton">Teacher Bio</button>
-            <div class="popup" id="popup">
+            <div class="popup" id="teacherPopup">
                 <strong>${this.teacher}</strong>
                 <p>${this.teacherBio}</p>
                 <button type="button" onClick="${this.closePopup}">Close</button>
             </div>
-            <button class="editButton" data-id="${this.id}">Edit</button>
-            <button class="deleteButton" data-id="${this.id}">Delete</button>
+            <div class="popup" id="descPopup">
+                <strong>${this.title}</strong>
+                <p>${this.description}</p>
+                <button type="button" onClick="${this.closePopup}">Close</button>
+            </div>
         `
     }
 
     renderButtons = () => {
         document.querySelector(`.deleteButton[data-id="${this.id}"]`).addEventListener('click', DanceClassApi.handleDelete)
         document.querySelector(`.editButton[data-id="${this.id}"]`).addEventListener('click', this.handleUpdate)
-        document.querySelector('.popupButton').addEventListener('click', this.openPopup)
-        document.querySelector('.popup').addEventListener('click', this.closePopup)
+        document.querySelector('.teacherPopupButton').addEventListener('click', this.openTeacherPopup)
+        document.querySelector('.descPopupButton').addEventListener('click', this.openDescPopup)
+        document.querySelector('#teacherPopup').addEventListener('click', this.closeTeacherPopup)
+        document.querySelector('#descPopup').addEventListener('click', this.closeDescPopup)
+    }
+
+    openTeacherPopup = () => {
+        const popup = document.getElementById('teacherPopup')
+        popup.classList.add("open-popup")
+    }
+
+    closeTeacherPopup = () => {
+        teacherPopup[0].classList.remove("open-popup")
+    }
+
+    openDescPopup = () => {
+        const popup = document.getElementById('descPopup')
+        popup.classList.add("open-popup")
+    }
+
+    closeDescPopup = () => {
+        descPopup[0].classList.remove("open-popup")
     }
 
     renderDanceClass = () => {
@@ -160,14 +189,5 @@ class DanceClass {
     replaceDanceClassBox = (div) => {
         this.renderHTML(div)
         this.renderButtons()
-    }
-
-    openPopup = () => {
-        const popup = document.getElementById('popup')
-        popup.classList.add("open-popup")
-    }
-
-    closePopup = () => {
-        popup.popup.classList.remove("open-popup")
     }
 }

@@ -22,14 +22,22 @@ body {
 }
 
 .danceClassBox {
-    /* display: inline-block; */
-    /* border: thin, solid, black; */
+    display: grid;
     background-color: darkseagreen;
     margin: 5px;
-    padding: 5px;
-    /* text-align: center; */
-    /* height: 200px; */
-    /* width: 300px; */
+    padding: 10px;
+    height: auto;
+    grid-template-columns: 33.3% 33.3% 33.3%;
+    align-items: start;
+    justify-content: space-between;
+}
+
+.classDetails {
+    /* display: inline-block; */
+    /* float: left; */
+    /* padding: 20px; */
+    /* width: 20%; */
+    align-self: center;
 }
 
 .editButton {

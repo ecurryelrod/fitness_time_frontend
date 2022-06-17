@@ -25,7 +25,7 @@ body {
     display: grid;
     background-color: darkseagreen;
     margin: 5px;
-    padding: 10px;
+    padding: 20px 10px 20px 10px;
     height: auto;
     grid-template-columns: 33.3% 33.3% 33.3%;
     align-items: start;
@@ -33,10 +33,12 @@ body {
 }
 
 .classDetails {
-    /* display: inline-block; */
-    /* float: left; */
-    /* padding: 20px; */
-    /* width: 20%; */
+    padding: 10px;
+    align-self: center;
+}
+
+.classButtons {
+    padding: 20px 0 0 0;
     align-self: center;
 }
 

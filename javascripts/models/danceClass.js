@@ -98,24 +98,24 @@ class DanceClass {
                 <span class="timeDuration">(${this.timeDuration(startHour, endHour, startMinutes, endMinutes)} min)</span>
             </div>
             <div class="classDetails">
-                <button class="teacherPopupButton">Teacher Bio</button>
-                <button class="descPopupButton">Class Description</button>
+                <button class="teacherPopupButton" data-id="${this.id}">Teacher Bio</button>
+                <button class="descPopupButton" data-id="${this.id}">Class Description</button>
             </div>
             <br>
-            <div class="classDetails">
+            <div class="classButtons">
                 <button class="editButton" data-id="${this.id}">Edit</button>
                 <button class="deleteButton" data-id="${this.id}">Delete</button>
             </div>
-            <br><br>
-            <div class="popup" id="teacherPopup">
+            
+            <div class="popup" id="teacherPopup" data-id="${this.id}">
                 <strong>${this.teacher}</strong>
                 <p>${this.teacherBio}</p>
-                <button type="button" onClick="${this.closePopup}">Close</button>
+                <button class="button">Close</button>
             </div>
-            <div class="popup" id="descPopup">
+            <div class="popup" id="descPopup" data-id="${this.id}">
                 <strong>${this.title}</strong>
                 <p>${this.description}</p>
-                <button type="button" onClick="${this.closePopup}">Close</button>
+                <button class="button">Close</button>
             </div>
         `
     }
@@ -123,28 +123,28 @@ class DanceClass {
     renderButtons = () => {
         document.querySelector(`.deleteButton[data-id="${this.id}"]`).addEventListener('click', DanceClassApi.handleDelete)
         document.querySelector(`.editButton[data-id="${this.id}"]`).addEventListener('click', this.handleUpdate)
-        document.querySelector('.teacherPopupButton').addEventListener('click', this.openTeacherPopup)
-        document.querySelector('.descPopupButton').addEventListener('click', this.openDescPopup)
-        document.querySelector('#teacherPopup').addEventListener('click', this.closeTeacherPopup)
-        document.querySelector('#descPopup').addEventListener('click', this.closeDescPopup)
+        document.querySelector(`.teacherPopupButton[data-id="${this.id}"]`).addEventListener('click', this.openTeacherPopup)
+        document.querySelector(`.descPopupButton[data-id="${this.id}"]`).addEventListener('click', this.openDescPopup)
+        document.querySelector(`#teacherPopup[data-id="${this.id}"]`).addEventListener('click', this.closeTeacherPopup)
+        document.querySelector(`#descPopup[data-id="${this.id}"]`).addEventListener('click', this.closeDescPopup)
     }
 
     openTeacherPopup = () => {
-        const popup = document.getElementById('teacherPopup')
+        const popup = document.querySelector(`#teacherPopup[data-id="${this.id}"]`)
         popup.classList.add("open-popup")
     }
 
     closeTeacherPopup = () => {
-        teacherPopup[0].classList.remove("open-popup")
+        document.querySelector(`#teacherPopup.open-popup`).classList.remove('open-popup')
     }
 
     openDescPopup = () => {
-        const popup = document.getElementById('descPopup')
-        popup.classList.add("open-popup")
+        const popup = document.querySelector(`#descPopup[data-id="${this.id}"]`)
+        popup.classList.add('open-popup')
     }
 
     closeDescPopup = () => {
-        descPopup[0].classList.remove("open-popup")
+        document.querySelector('#descPopup.open-popup').classList.remove('open-popup')
     }
 
     renderDanceClass = () => {

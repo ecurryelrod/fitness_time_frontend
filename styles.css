@@ -1,30 +1,55 @@
 body {
     background-color: lightslategray;
+    text-align: center;
 }
 
 #studioContainer {
-    /* float: left; */
+    float: left;
+    width: 300px;
     padding: 10px;
-    /* height: flex; */
+    height: 100%;
     background-color: lightblue;
-    text-align: center;
+}
+
+#studioBox {
+    padding: 0 0 20px 0;
 }
 
 #danceClassContainer {
-    /* display: inline; */
-    /* float: left; */
     padding: 10px;
     background-color: darkslateblue;
+    margin-left: 320px;
 }
 
 .danceClassBox {
-    border: thin, solid, black;
+    /* display: inline-block; */
+    /* border: thin, solid, black; */
     background-color: darkseagreen;
     margin: 5px;
     padding: 5px;
-    text-align: center;
+    /* text-align: center; */
+    /* height: 200px; */
+    /* width: 300px; */
 }
 
 .editButton {
     background-color:mistyrose;
+}
+
+.popup {
+    width: 400px;
+    background: white;
+    padding: 10px;
+    border-radius: 6px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.1);
+    visibility: hidden;
+}
+
+.open-popup {
+    top: 30%;
+    transform: translate(-50%, -50%) scale(1);
+    visibility: visible;
 }

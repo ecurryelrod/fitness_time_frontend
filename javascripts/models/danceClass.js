@@ -160,15 +160,15 @@ class DanceClass {
     }
 
     handleUpdate = (event) => {
-        const startTimeArrayFirstSplit = event.target.parentElement.querySelector('.startTime').innerText.split(' ')
+        const startTimeArrayFirstSplit = event.target.parentElement.parentElement.querySelector('.startTime').innerText.split(' ')
         const startTimeArray = startTimeArrayFirstSplit[0].split(':')
 
-        const endTimeArrayFirstSplit = event.target.parentElement.querySelector('.endTime').innerText.split(' ')
+        const endTimeArrayFirstSplit = event.target.parentElement.parentElement.querySelector('.endTime').innerText.split(' ')
         const endTimeArray = endTimeArrayFirstSplit[0].split(':')
         
-        const dateArray = event.target.parentElement.querySelector('.date').innerText.split("/")
+        const dateArray = event.target.parentElement.parentElement.querySelector('.date').innerText.split("/")
         
-        event.target.parentElement.innerHTML = `
+        event.target.parentElement.parentElement.innerHTML = `
             <label for="date">Date: </label>
             <input id="editDate" name="date" type="date" value="${dateArray[2]}-${dateArray[0]}-${dateArray[1]}">
             <label for="start_time">Start Time: </label>
@@ -176,9 +176,9 @@ class DanceClass {
             <label for="end_time">End Time: </label>
             <input id="editEndTime" name="end_time" type="time" value="${this.militaryTime(endTimeArrayFirstSplit, endTimeArray)}" step="1800">
             <label for="title">Class Title: </label>
-            <input id="editClassTitle" name="title" type="text" value="${event.target.parentElement.querySelector('.classTitle').innerText}">
+            <input id="editClassTitle" name="title" type="text" value="${event.target.parentElement.parentElement.querySelector('.classTitle').innerText}">
             <label for="description">Class Description: </label>
-            <input id="editDescription" name="description" type="text" value="${event.target.parentElement.querySelector('.classDescription').innerText}">
+            <input id="editDescription" name="description" type="text" value="${event.target.parentElement.parentElement.querySelector(`#descPopup p`).innerHTML}">
             <br><br>
             <button class="updateButton" data-id="${event.target.dataset.id}">Update</button> 
         `

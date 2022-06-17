@@ -88,14 +88,14 @@ class DanceClass {
         
         div.innerHTML = `
             <div class="classDetails">
-                <strong class="classTitle">${this.title}</strong> w/ <strong class="teacherName">${this.teacher}</strong>
-                <span class="classLevel" data-id="${this.level_id}">(${this.level})</span>
-            </div>
-            <div class="classDetails">
                 <strong class="date">${dateArray[1]}/${dateArray[2]}/${dateArray[0]}</strong> | 
                 <strong class="startTime">${this.amOrPm(startHour, startMinutes)}</strong> - 
                 <strong class="endTime">${this.amOrPm(endHour, endMinutes)}</strong>
                 <span class="timeDuration">(${this.timeDuration(startHour, endHour, startMinutes, endMinutes)} min)</span>
+            </div>
+            <div class="classDetails">
+                <strong class="classTitle">${this.title}</strong> w/ <strong class="teacherName">${this.teacher}</strong>
+                <span class="classLevel" data-id="${this.level_id}">(${this.level})</span>
             </div>
             <div class="classDetails">
                 <button class="teacherPopupButton" data-id="${this.id}">Teacher Bio</button>
@@ -169,25 +169,33 @@ class DanceClass {
         const dateArray = event.target.parentElement.parentElement.querySelector('.date').innerText.split("/")
         
         event.target.parentElement.parentElement.innerHTML = `
-            <label for="date">Date: </label>
-            <input id="editDate" name="date" type="date" value="${dateArray[2]}-${dateArray[0]}-${dateArray[1]}">
-            <label for="start_time">Start Time: </label>
-            <input id="editStartTime" name="start_time" type="time" value="${this.militaryTime(startTimeArrayFirstSplit, startTimeArray)}" step="1800">
-            <label for="end_time">End Time: </label>
-            <input id="editEndTime" name="end_time" type="time" value="${this.militaryTime(endTimeArrayFirstSplit, endTimeArray)}" step="1800">
-            <label for="title">Class Title: </label>
-            <input id="editClassTitle" name="title" type="text" value="${event.target.parentElement.parentElement.querySelector('.classTitle').innerText}">
-            <label for="description">Class Description: </label>
-            <input id="editDescription" name="description" type="text" value="${event.target.parentElement.parentElement.querySelector(`#descPopup p`).innerHTML}">
-            <br><br>
-            <button class="updateButton" data-id="${event.target.dataset.id}">Update</button> 
+            <div class="classDetails">
+                <label for="date">Date: </label>
+                <input id="editDate" name="date" type="date" value="${dateArray[2]}-${dateArray[0]}-${dateArray[1]}">
+            </div>
+            <div class="classDetails">
+                <label for="start_time">Start Time: </label>
+                <input id="editStartTime" name="start_time" type="time" value="${this.militaryTime(startTimeArrayFirstSplit, startTimeArray)}" step="1800">
+                <label for="end_time">End Time: </label>
+                <input id="editEndTime" name="end_time" type="time" value="${this.militaryTime(endTimeArrayFirstSplit, endTimeArray)}" step="1800">
+            </div>
+            <div class="classDetails">
+                <label for="title">Class Title: </label><br>
+                <input id="editClassTitle" name="title" type="text" value="${event.target.parentElement.parentElement.querySelector('.classTitle').innerText}">
+                <br>
+                <label for="description">Class Description: </label><br>
+                <textarea id="editDescription" name="description" rows="10">${event.target.parentElement.parentElement.querySelector(`#descPopup p`).innerHTML}</textarea>
+            </div>
+            <br>
+            <div class="classButtons">
+                <button class="updateButton" data-id="${event.target.dataset.id}">Update</button> 
+            </div>
         `
-
         document.querySelector(`.updateButton[data-id="${event.target.dataset.id}"]`).addEventListener('click', DanceClassApi.handleFetchUpdate)
     }
 
     replaceDanceClassBox = (div) => {
-        this.renderHTML(div)
+        this.renderHTML(div.parentElement)
         this.renderButtons()
     }
 }

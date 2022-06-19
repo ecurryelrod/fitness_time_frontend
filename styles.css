@@ -5,10 +5,11 @@ body {
 
 #studioContainer {
     float: left;
-    width: 300px;
-    padding: 10px;
+    width: 280px;
+    padding: 20px;
     height: 100%;
     background-color: lightblue;
+    text-align: left;
 }
 
 #studioBox {

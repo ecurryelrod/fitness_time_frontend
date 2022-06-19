@@ -88,15 +88,16 @@ class DanceClass {
         
         div.innerHTML = `
             <div class="classDetails">
+                <strong class="classTitle">${this.title}</strong> w/ <strong class="teacherName">${this.teacher}</strong>
+                <span class="classLevel" data-id="${this.level_id}">(${this.level})</span>
+            </div>
+            <div class="classDetails">
                 <strong class="date">${dateArray[1]}/${dateArray[2]}/${dateArray[0]}</strong> | 
                 <strong class="startTime">${this.amOrPm(startHour, startMinutes)}</strong> - 
                 <strong class="endTime">${this.amOrPm(endHour, endMinutes)}</strong>
                 <span class="timeDuration">(${this.timeDuration(startHour, endHour, startMinutes, endMinutes)} min)</span>
             </div>
-            <div class="classDetails">
-                <strong class="classTitle">${this.title}</strong> w/ <strong class="teacherName">${this.teacher}</strong>
-                <span class="classLevel" data-id="${this.level_id}">(${this.level})</span>
-            </div>
+            
             <div class="classDetails">
                 <button class="teacherPopupButton" data-id="${this.id}">Teacher Bio</button>
                 <button class="descPopupButton" data-id="${this.id}">Class Description</button>

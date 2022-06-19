@@ -12,14 +12,17 @@ class NewClassForm {
             showForm.innerText = 'Hide Form'
             studioBox.insertAdjacentHTML('beforeend', `
             <form id="classForm">
-                <h3>Add a class</h3>
-                <input id="inputTitle" type="text" name="title" placeholder="Class Title">
+                <h2>Add a class</h2>
+                <label>Class Title:</label><br>
+                <input id="inputTitle" type="text" name="title">
                 <br><br>
-                <textarea id="inputDescription" name="description" cols="30" rows="10" placeholder="Class description"></textarea>
+                <label>Class Description:</label><br>
+                <textarea id="inputDescription" name="description" cols="30" rows="10"></textarea>
                 <br><br>
                 <label>Level: </label>
                 <select name="levels" id="levelId"></select>
                 <br><br>
+                <label>Date: </label>
                 <input id="inputDate" type="date" name="date">
                 <br><br>
                 <label>Start: </label>
@@ -27,6 +30,7 @@ class NewClassForm {
                 <label>End: </label>
                 <input id="inputEndTime" type="time" name="end_time" step="1800">
                 <br><br>
+                <label>Teacher: </label>
                 <select name="teachers" id="teacherId"></select>
                 <br><br>
                 <button id="" type="submit">Submit</button>

@@ -4,18 +4,12 @@ body {
 }
 
 #studioContainer {
-    /* float: left; */
-    /* width: 280px; */
     padding: 20px;
-    /* height: 100%; */
+    margin: 5px;
     background-color: #D3EBCD;
     text-align: left;
     color: #635666;
 }
-
-/* #studioBox {
-    padding: 0 0 20px 0;
-} */
 
 /* #danceClassContainer { */
     /* padding: 10px; */
@@ -42,7 +36,6 @@ body {
 
 .btn {
     background: #839AA8;
-    /* color: #D3EBCD; */
 }
 
 .formBtn {
@@ -69,6 +62,3 @@ body {
     visibility: visible;
 }
 
-/* .form-control {
-    background-color: #D3EBCD;
-} */

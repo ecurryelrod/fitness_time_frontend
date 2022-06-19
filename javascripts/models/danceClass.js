@@ -171,28 +171,28 @@ class DanceClass {
         
         event.target.parentElement.parentElement.innerHTML = `
             <div class="classDetails">
+                <label for="title">Class Title: </label><br>
+                <input id="editClassTitle" class="form-control" id="exampleFormControlInput1" name="title" type="text" value="${event.target.parentElement.parentElement.querySelector('.classTitle').innerText}">
+                
                 <label for="date">Date: </label>
-                <input id="editDate" name="date" type="date" value="${dateArray[2]}-${dateArray[0]}-${dateArray[1]}">
+                <input id="editDate" class="form-control" id="exampleFormControlInput1" name="date" type="date" value="${dateArray[2]}-${dateArray[0]}-${dateArray[1]}">
             </div>
             <div class="classDetails">
                 <label for="start_time">Start Time: </label>
-                <input id="editStartTime" name="start_time" type="time" value="${this.militaryTime(startTimeArrayFirstSplit, startTimeArray)}" step="1800">
+                <input id="editStartTime" class="form-control" id="exampleFormControlInput1" name="start_time" type="time" value="${this.militaryTime(startTimeArrayFirstSplit, startTimeArray)}" step="1800">
                 <label for="end_time">End Time: </label>
-                <input id="editEndTime" name="end_time" type="time" value="${this.militaryTime(endTimeArrayFirstSplit, endTimeArray)}" step="1800">
+                <input id="editEndTime" class="form-control" id="exampleFormControlInput1" name="end_time" type="time" value="${this.militaryTime(endTimeArrayFirstSplit, endTimeArray)}" step="1800">
             </div>
             <div class="classDetails">
-                <label for="title">Class Title: </label><br>
-                <input id="editClassTitle" name="title" type="text" value="${event.target.parentElement.parentElement.querySelector('.classTitle').innerText}">
-                <br>
                 <label for="description">Class Description: </label><br>
-                <textarea id="editDescription" name="description" rows="10">${event.target.parentElement.parentElement.querySelector(`#descPopup p`).innerHTML}</textarea>
+                <textarea id="editDescription" class="form-control" id="exampleFormControlTextarea1" rows="3" name="description" rows="10">${event.target.parentElement.parentElement.querySelector(`#descPopup p`).innerHTML}</textarea>
             </div>
             <br>
             <div class="classButtons">
-                <button class="updateButton" data-id="${event.target.dataset.id}">Update</button> 
+                <button id="updateButton" class="btn btn-secondary btn-sm" data-id="${event.target.dataset.id}">Update</button> 
             </div>
         `
-        document.querySelector(`.updateButton[data-id="${event.target.dataset.id}"]`).addEventListener('click', DanceClassApi.handleFetchUpdate)
+        document.querySelector(`#updateButton[data-id="${event.target.dataset.id}"]`).addEventListener('click', DanceClassApi.handleFetchUpdate)
     }
 
     replaceDanceClassBox = (div) => {

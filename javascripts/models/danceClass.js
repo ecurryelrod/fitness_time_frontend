@@ -94,38 +94,38 @@ class DanceClass {
             <div class="classDetails">
                 <strong class="date">${dateArray[1]}/${dateArray[2]}/${dateArray[0]}</strong> | 
                 <strong class="startTime">${this.amOrPm(startHour, startMinutes)}</strong> - 
-                <strong class="endTime">${this.amOrPm(endHour, endMinutes)}</strong>
+                <strong class="endTime">${this.amOrPm(endHour, endMinutes)}</strong><br>
                 <span class="timeDuration">(${this.timeDuration(startHour, endHour, startMinutes, endMinutes)} min)</span>
             </div>
             
             <div class="classDetails">
-                <button class="teacherPopupButton" data-id="${this.id}">Teacher Bio</button>
-                <button class="descPopupButton" data-id="${this.id}">Class Description</button>
+                <button id="teacherPopupButton" class="btn btn-secondary btn-sm" data-id="${this.id}">Teacher Bio</button>
+                <button id="descPopupButton" class="btn btn-secondary btn-sm" data-id="${this.id}">Class Description</button>
             </div>
             <br>
             <div class="classButtons">
-                <button class="editButton" data-id="${this.id}">Edit</button>
-                <button class="deleteButton" data-id="${this.id}">Delete</button>
+                <button id="editButton" class="btn btn-secondary btn-sm" data-id="${this.id}">Edit</button>
+                <button id="deleteButton" class="btn btn-secondary btn-sm" data-id="${this.id}">Delete</button>
             </div>
             
             <div class="popup" id="teacherPopup" data-id="${this.id}">
                 <strong>${this.teacher}</strong>
                 <p>${this.teacherBio}</p>
-                <button class="button">Close</button>
+                <button class="btn btn-secondary btn-sm">Close</button>
             </div>
             <div class="popup" id="descPopup" data-id="${this.id}">
                 <strong>${this.title}</strong>
                 <p>${this.description}</p>
-                <button class="button">Close</button>
+                <button class="btn btn-secondary btn-sm">Close</button>
             </div>
         `
     }
 
     renderButtons = () => {
-        document.querySelector(`.deleteButton[data-id="${this.id}"]`).addEventListener('click', DanceClassApi.handleDelete)
-        document.querySelector(`.editButton[data-id="${this.id}"]`).addEventListener('click', this.handleUpdate)
-        document.querySelector(`.teacherPopupButton[data-id="${this.id}"]`).addEventListener('click', this.openTeacherPopup)
-        document.querySelector(`.descPopupButton[data-id="${this.id}"]`).addEventListener('click', this.openDescPopup)
+        document.querySelector(`#deleteButton[data-id="${this.id}"]`).addEventListener('click', DanceClassApi.handleDelete)
+        document.querySelector(`#editButton[data-id="${this.id}"]`).addEventListener('click', this.handleUpdate)
+        document.querySelector(`#teacherPopupButton[data-id="${this.id}"]`).addEventListener('click', this.openTeacherPopup)
+        document.querySelector(`#descPopupButton[data-id="${this.id}"]`).addEventListener('click', this.openDescPopup)
         document.querySelector(`#teacherPopup[data-id="${this.id}"]`).addEventListener('click', this.closeTeacherPopup)
         document.querySelector(`#descPopup[data-id="${this.id}"]`).addEventListener('click', this.closeDescPopup)
     }

@@ -1,6 +1,7 @@
 class DanceClassApi {
     static fetchDanceClasses = () => {
         fetch('http://127.0.0.1:3000/dance_classes', {
+            // was having some fetch request issues and thought this would help
             headers: {'Access-Control-Allow-Origin': '*'}
         })
         .then(resp => resp.json())
@@ -34,9 +35,13 @@ class DanceClassApi {
         })
         .then(resp => resp.json())
         .then(json => {
-            const newDanceClass = new DanceClass(json.data)
-            newDanceClass.renderDanceClass()
-            classForm().reset()
+            if (json.error) {
+                alert(json.error)
+            } else {
+                const newDanceClass = new DanceClass(json.data)
+                newDanceClass.renderDanceClass()
+                classForm().reset()
+            }
         })
     }
 
@@ -47,8 +52,12 @@ class DanceClassApi {
         })
         .then(resp => resp.json())
         .then(json => {
-            e.target.parentElement.parentElement.remove()
-            alert(json.message)
+            if (json.error) {
+                alert(json.error)
+            } else {
+                e.target.parentElement.parentElement.remove()
+                alert(json.message)
+            }
         })
     }
 
@@ -71,10 +80,13 @@ class DanceClassApi {
         .then(resp => resp.json())
         // .then(json => this.replaceDanceClassBox(json.data, e.target.parentElement))
         .then(json => {
-            let danceClass = DanceClass.all.find(dcObj => dcObj.id === json.data.id)
-            let updatedDanceClass = danceClass.updateDanceClass(json.data)
-            updatedDanceClass.replaceDanceClassBox(e.target.parentElement)
+            if (json.error) {
+                alert(json.error)
+            } else {
+                let danceClass = DanceClass.all.find(dcObj => dcObj.id === json.data.id)
+                let updatedDanceClass = danceClass.updateDanceClass(json.data)
+                updatedDanceClass.replaceDanceClassBox(e.target.parentElement)
+            }
         })
-        .catch(err => alert(err))
     }
 }

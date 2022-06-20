@@ -17,21 +17,21 @@ class NewClassForm {
                 <h2>Add a class</h2>
                 <label for="exampleFormControlInput1" class="form-label">Class Title:</label><br>
                 <input id="inputTitle" class="form-control" id="exampleFormControlInput1" type="text" name="title">
-                <br><br>
+                <br>
                 <label for="exampleFormControlInput1" class="form-label">Class Description:</label><br>
                 <textarea id="inputDescription" class="form-control" id="exampleFormControlTextarea1" rows="3" name="description" cols="30" rows="10"></textarea>
-                <br><br>
+                <br>
                 <label for="exampleFormControlInput1" class="form-label">Level: </label>
                 <select class="form-select" aria-label="Default select example" name="levels" id="levelId"></select>
-                <br><br>
+                <br>
                 <label for="exampleFormControlInput1" class="form-label">Date: </label>
                 <input id="inputDate" class="form-control" id="exampleFormControlInput1" type="date" name="date">
-                <br><br>
+                <br>
                 <label for="exampleFormControlInput1" class="form-label">Start: </label>
                 <input id="inputStartTime" class="form-control" id="exampleFormControlInput1" type="time" name="start_time" step="1800">
                 <label for="exampleFormControlInput1" class="form-label">End: </label>
                 <input id="inputEndTime" class="form-control" id="exampleFormControlInput1" type="time" name="end_time" step="1800">
-                <br><br>
+                <br>
                 <label for="exampleFormControlInput1" class="form-label">Teacher: </label>
                 <select class="form-select" aria-label="Default select example" name="teachers" id="teacherId"></select>
                 <br><br>

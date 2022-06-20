@@ -3,10 +3,17 @@ body {
     text-align: center;
 }
 
+.display-1 {
+    background-color: #839AA8;
+    color: #D3EBCD;
+    border: 4px solid #D3EBCD;
+}
+
 #studioContainer {
     padding: 20px;
     margin: 5px;
     background-color: #D3EBCD;
+    border: 4px solid #839AA8;
     text-align: left;
     color: #635666;
 }
@@ -22,7 +29,7 @@ body {
     background-color: #AEDBCE;
     margin: 5px;
     padding: 20px 10px 20px 10px;
-    height: auto;
+    border: 4px solid #839AA8;
     grid-template-columns: 33.3% 33.3% 33.3%;
     align-items: start;
     justify-content: space-between;
